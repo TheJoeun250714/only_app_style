@@ -30,6 +30,40 @@ class _MainScreenState extends State<MainScreen> {
     "img": "https://picsum.photos/id/${index + 10}/200/300"
   });
 
+  // 시간별 그라데이션 로직
+  Map<String, dynamic> _getGradientSettings() {
+    final int hour = DateTime.now().hour;
+
+    // 새벽 (03 ~ 09시 미만)
+    if (hour >= 3 && hour < 9) {
+      return {
+        "colors": [const Color(0xFF5699CD), const Color(0xFFFFECC9)],
+        "stops": [0.0, 0.6],
+      };
+    }
+    // 낮 (09 ~ 17시 미만)
+    else if (hour >= 9 && hour < 17) {
+      return {
+        "colors": [const Color(0xFF91CFFF), const Color(0xFFE7EFF0)],
+        "stops": [0.0, 0.6],
+      };
+    }
+    // 노을 (17 ~ 21시 미만)
+    else if (hour >= 17 && hour < 21) {
+      return {
+        "colors": [const Color(0xFFA7A6CB), const Color(0xFFE56E50)],
+        "stops": [0.0, 1.0],
+      };
+    }
+    // 밤 (21 ~ 03시 미만)
+    else {
+      return {
+        "colors": [const Color(0xFF3A586E), const Color(0xFF4C1D47)],
+        "stops": [0.0, 0.5],
+      };
+    }
+  }
+
   void _scroll(ScrollController controller, bool isLeft) {
     double move = isLeft ? -200 : 200;
     controller.animateTo(
@@ -44,6 +78,9 @@ class _MainScreenState extends State<MainScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth > 600) screenWidth = 412;
 
+    // 현재 시간에 맞는 그라데이션 설정 가져오기
+    final gradientConfig = _getGradientSettings();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('테스트'),
@@ -57,37 +94,12 @@ class _MainScreenState extends State<MainScreen> {
         child: Container(
           width: screenWidth,
           height: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
-              end: Alignment(0.0, -0.2),
-              // 새벽
-              // colors: [
-              //   Color(0xFF5699CD), // 상단 파란색
-              //   Color(0xFFFFECC9), // 하단 상아색
-              // ],
-              // stops: [0.0, 0.6],
-
-              // 낮
-              // colors: [
-              //   Color(0xFF91CFFF), // 상단 하늘색
-              //   Color(0xFFE7EFF0), // 하단 연한 하늘색
-              // ],
-              // stops: [0.0, 0.6],
-
-              // 노을(기본)
-              colors: [
-                Color(0xFFA7A6CB), // 상단 보라색
-                Color(0xFFE56E50), // 하단 주황색
-              ],
-              stops: [0.0, 1.0],
-
-              // 밤
-              // colors: [
-              //   Color(0xFF3A586E), // 상단 남색
-              //   Color(0xFF4C1D47), // 하단 보라색
-              // ],
-              // stops: [0.0, 0.5],
+              end: const Alignment(0.0, -0.2),
+              colors: gradientConfig["colors"],
+              stops: gradientConfig["stops"],
             ),
           ),
           child: Column(

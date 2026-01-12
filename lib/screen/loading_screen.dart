@@ -37,7 +37,6 @@ body:  Container(
       end: Alignment.bottomRight,
       colors: [
         Color(0xFFA7A6CB),
-        Color(0xFFE8A09B),
         Color(0xFFE56E50),
       ],
       stops: [0.0, 0.5, 1.0],
