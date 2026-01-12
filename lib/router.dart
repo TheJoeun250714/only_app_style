@@ -7,6 +7,7 @@ import 'package:only_app_style/screen/login_screen.dart';
 import 'package:only_app_style/screen/signup_screen.dart';
 import 'package:only_app_style/screen/find_id_screen.dart';
 import 'package:only_app_style/screen/confirm_password_screen.dart';
+import 'package:only_app_style/screen/login_change_password_screen.dart';
 import 'package:only_app_style/screen/main_screen.dart';
 import 'package:only_app_style/screen/favorite_app.dart';
 import 'package:only_app_style/screen/map_screen.dart';
@@ -19,10 +20,16 @@ import 'package:only_app_style/screen/change_password_screen.dart';
 import 'package:only_app_style/screen/my_reservation_screen.dart';
 import 'package:only_app_style/screen/mypage_review_screen.dart';
 import 'package:only_app_style/screen/mypage_review_write_screen.dart';
+import 'package:only_app_style/screen/reservation_screen.dart';
+import 'package:only_app_style/screen/payment_screen.dart';
+import 'package:only_app_style/screen/success_pay_screen.dart';
 import 'package:only_app_style/ui_check.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+/// 공통 뒤로가기 로직
+/// - 이전 페이지가 있으면 pop
+/// - 없으면 UI 체크 화면(/)으로 이동
 void handleBackNavigation(BuildContext context) {
   if (context.canPop()) {
     context.pop();
@@ -69,6 +76,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/find-password',
       builder: (context, state) => const ConfirmPasswordScreen(),
+    ),
+    GoRoute(
+      path: '/login-change-password',
+      builder: (context, state) => const LoginChangePasswordScreen(),
     ),
 
     // ==================================================================
@@ -124,7 +135,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/change-password',
-      builder: (context, state) => const ConfirmPasswordScreen(),
+      builder: (context, state) => const LoginChangePasswordScreen(),
     ),
 
     // ==================================================================
@@ -134,9 +145,25 @@ final GoRouter router = GoRouter(
       path: '/my-reservation',
       builder: (context, state) => const MyReservationScreen(),
     ),
+    GoRoute(
+      path: '/reservation',
+      builder: (context, state) => const ReservationScreen(),
+    ),
 
     // ==================================================================
-    // 9. 리뷰 관련
+    // 9. 결제 관련
+    // ==================================================================
+    GoRoute(
+      path: '/payment',
+      builder: (context, state) => const PaymentScreen(),
+    ),
+    GoRoute(
+      path: '/payment-success',
+      builder: (context, state) => const SuccessPayScreen(),
+    ),
+
+    // ==================================================================
+    // 10. 리뷰 관련
     // ==================================================================
     GoRoute(
       path: '/my-reviews',
